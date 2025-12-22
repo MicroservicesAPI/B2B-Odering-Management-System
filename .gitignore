@@ -1,0 +1,70 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs
+*.log
+logs/
+*.out
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+pytest_cache/
+
+# --- FastAPI / Uvicorn ---
+# Uvicorn reload cache
+*.pid
+
+# --- Environment variables ---
+.env
+.env.*
+!.env.example
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Docker ---
+# Ignore Docker build artifacts
+docker-compose.override.yml
+*.dockerfile
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- MyPy / Ruff / Lint ---
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# --- Static / Media (if generated) ---
+staticfiles/
+media/
