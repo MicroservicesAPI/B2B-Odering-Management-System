@@ -9,5 +9,15 @@ class Config:
     VERSION = os.getenv("VERSION")
 
 
+class LocalRunConfig(Config):
+    SQLALCHEMY_DATABASE_URL = "sqlite:///./test_auth.db"
 
+
+class ProdRunConfig(Config):
+    SQLALCHEMY_DATABASE_URL = os.getenv("PROD_DATABASE_URL")
+
+
+# will be use depending on the run-context
 app_config = Config()
+local_run_config = LocalRunConfig()
+prod_run_config = ProdRunConfig()
