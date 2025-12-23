@@ -11,13 +11,14 @@ class LoginRequest(BaseModel):
 
 
 class LoginResponse(BaseModel):
-    id: str
+    id: uuid.UUID
     email: str
     role: str
 
     model_config = {
         "from_attributes": True
     }
+
 
 class UserRole(enum.Enum):
     ADMIN = "admin"
@@ -29,11 +30,11 @@ class RegisterRequest(BaseModel):
     password: str = Field(..., min_length=8)
     name: str
     role: UserRole = Field(default=UserRole.STAFF)
-    department_id: int = Field(...)
+    department_id: uuid.UUID = Field(...)
 
 
 class RegisterResponse(BaseModel):
-    id: str
+    id: uuid.UUID
     email: str
     name: str
     role: str
@@ -44,9 +45,13 @@ class RegisterResponse(BaseModel):
         "from_attributes": True
     }
 
+
 class RefreshTokenRequest(BaseModel):
-    pass
+    """ schema of the refresh token request"""
+    refresh_token: str
 
 
 class RefreshTokenResponse(BaseModel):
-    pass
+    """ schema of the refresh token response"""
+    access_token: str
+    token_type: str = "bearer"
