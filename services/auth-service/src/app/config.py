@@ -7,6 +7,9 @@ load_dotenv()
 class Config:
     PROJECT_NAME = os.getenv("PROJECT_NAME")
     VERSION = os.getenv("VERSION")
+    ALGORITHM = os.getenv("ALGORITHM")
+    ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+    REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS"))
 
 
 class LocalRunConfig(Config):
