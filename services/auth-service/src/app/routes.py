@@ -1,18 +1,20 @@
 from fastapi import APIRouter
 
-auth_router = APIRouter()
+from app.schemas import LoginRequest, RegisterRequest
+
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@auth_router.get("/login")
-def login():
+@auth_router.post("/login")
+async def login(request: LoginRequest):
     return {"message": "Login successful"}
 
 
 @auth_router.post("/register")
-def register():
+async def register(request: RegisterRequest):
     return {"message": "Registration successful"}
 
 
-@auth_router.get("/refresh token")
+@auth_router.get("/refresh_token")
 def refresh_token():
     return {"message": "Refresh token successful"}
