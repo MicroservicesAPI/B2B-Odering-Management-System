@@ -6,11 +6,9 @@ from sqlalchemy import (
     String,
     DateTime,
     Boolean,
-    Enum,
-    ForeignKey
+    Enum
 )
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
 
 from app.db import Base
 from app.schemas import UserRole
