@@ -27,7 +27,7 @@ logs/
 *.pyo
 *.pyd
 
-# Unit test / coverage reports
+# Unit tests / coverage reports
 htmlcov/
 .tox/
 .nox/
