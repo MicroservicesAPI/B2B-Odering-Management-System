@@ -27,7 +27,7 @@ class UserRole(enum.Enum):
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    password: str = Field(..., min_length=8)
+    password: str = Field(..., min_length=8, max_length=72)
     name: str
     role: UserRole = Field(default=UserRole.STAFF)
     department_id: uuid.UUID = Field(...)
