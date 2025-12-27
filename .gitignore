@@ -35,6 +35,8 @@ htmlcov/
 .coverage.*
 .cache
 pytest_cache/
+*.db
+*.db-journal
 
 # --- FastAPI / Uvicorn ---
 # Uvicorn reload cache
