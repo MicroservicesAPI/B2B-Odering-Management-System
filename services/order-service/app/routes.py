@@ -14,7 +14,7 @@ def get_current_user():
     Example injected user from JWT
     """
     return {
-        "sub": "user-id",
+        "sub": "12345678-1234-5678-1234-567812345678",
         "role": "staff",
         "department_id": 1
     }
