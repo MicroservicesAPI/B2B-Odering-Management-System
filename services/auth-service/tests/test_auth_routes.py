@@ -12,7 +12,8 @@ def test_register_route(client):
     )
 
     assert response.status_code == 200
-    assert response.json()["email"] == "api@test.com"
+    data = response.json()
+    assert data["email"] == "api@test.com"
 
 
 def test_login_route(client):
