@@ -43,7 +43,8 @@ def db():
 
 @pytest.fixture()
 def client(db):
-    # deactivate Lifespan
+    # Deactivate Lifespan to prevent database initialization during tests
+    # The test database is already created in create_test_db fixture
     app = create_app()
     app.router.lifespan_context = None
 

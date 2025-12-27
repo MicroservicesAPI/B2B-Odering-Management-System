@@ -11,7 +11,10 @@ from app.db import Base
 
 class GUID(TypeDecorator):
     """Platform-independent GUID type.
-    Uses PostgreSQL's UUID type, otherwise uses CHAR(32), storing as stringified hex values.
+    
+    Uses PostgreSQL's UUID type for PostgreSQL databases.
+    For other databases (like SQLite), uses CHAR(32) to store UUIDs as 32-character hex strings (without hyphens).
+    This ensures compatibility across different database backends for testing and production.
     """
     impl = CHAR
     cache_ok = True
