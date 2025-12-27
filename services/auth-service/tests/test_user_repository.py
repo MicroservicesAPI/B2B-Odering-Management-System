@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from app.schemas import UserRole
 from app.user_repository import UserRepository
 
@@ -9,7 +11,7 @@ def test_create_and_get_user(db):
         password="password123",
         name="Test User",
         role=UserRole.STAFF,
-        department_id="11111111-1111-1111-1111-111111111111"
+        department_id=UUID("11111111-1111-1111-1111-111111111111")
     )
 
     fetched = UserRepository.get_by_email(db, "test@example.com")
