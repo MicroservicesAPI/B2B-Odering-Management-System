@@ -1,42 +1,34 @@
-from enum import Enum
-from uuid import UUID
 from datetime import datetime
 from typing import List
+from uuid import UUID
 
 from pydantic import BaseModel, Field
-
-
-class OrderStatus(str, Enum):
-    pending = "pending"
-    approved = "approved"
-    completed = "completed"
-    cancelled = "cancelled"
 
 
 class OrderItemCreate(BaseModel):
     product_name: str
     quantity: int = Field(gt=0)
-    # unit_price: float = Field(gt=0)
-
-
-class OrderItemResponse(OrderItemCreate):
-    id: UUID
-
-    model_config = {"from_attributes": True}
 
 
 class OrderCreateRequest(BaseModel):
+    description: str | None = None
     items: List[OrderItemCreate]
+
+
+class OrderItemResponse(BaseModel):
+    product_name: str
+    quantity: int
+
+    model_config = {"from_attributes": True}
 
 
 class OrderResponse(BaseModel):
     id: UUID
     user_id: UUID
-    department_id: UUID
-    status: OrderStatus
-    # total_price: float
+    department_id: int
+    status: str
+    description: str | None
     created_at: datetime
-    updated_at: datetime
     items: List[OrderItemResponse]
 
     model_config = {"from_attributes": True}
