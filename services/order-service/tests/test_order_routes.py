@@ -69,7 +69,7 @@ def test_update_order_status_route_requires_admin(client, db):
     # Override the current user to be staff (non-admin)
     def get_staff_user():
         return {
-            "sub": "user-id",
+            "sub": "12345678-1234-5678-1234-567812345678",
             "role": "staff",
             "department_id": 1
         }
