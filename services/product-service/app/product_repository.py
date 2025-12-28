@@ -8,6 +8,7 @@ class ProductRepository:
 
     @staticmethod
     def create_product(
+
         db: Session,
         name: str,
         sku: str,
@@ -23,7 +24,6 @@ class ProductRepository:
             stock_quantity=stock_quantity,
             min_stock=min_stock
         )
-        
         try:
             db.add(product)
             db.commit()
@@ -50,6 +50,7 @@ class ProductRepository:
 
     @staticmethod
     def update_product(
+
         db: Session,
         product: Product,
         name: str | None = None,
@@ -63,7 +64,7 @@ class ProductRepository:
             product.description = description
         if min_stock is not None:
             product.min_stock = min_stock
-        
+
         db.commit()
         db.refresh(product)
         return product
@@ -73,7 +74,7 @@ class ProductRepository:
         """Adjust stock quantity"""
         if new_quantity < 0:
             raise ValueError("Stock quantity cannot be negative")
-        
+
         product.stock_quantity = new_quantity
         db.commit()
         db.refresh(product)
@@ -83,4 +84,5 @@ class ProductRepository:
     def delete_product(db: Session, product: Product):
         """Delete a product"""
         db.delete(product)
+
         db.commit()

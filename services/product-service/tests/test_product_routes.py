@@ -10,7 +10,7 @@ def test_create_product_route(client):
             "min_stock": 10
         }
     )
-    
+
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "API Test Product"
@@ -31,7 +31,7 @@ def test_list_products_route(client):
             "min_stock": 5
         }
     )
-    
+
     client.post(
         "/products",
         json={
@@ -42,10 +42,12 @@ def test_list_products_route(client):
             "min_stock": 7
         }
     )
-    
+
+
     # List products
     response = client.get("/products")
-    
+
+
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
@@ -65,12 +67,13 @@ def test_get_product_by_id_route(client):
             "min_stock": 3
         }
     )
-    
+
     product_id = create_response.json()["id"]
-    
+
     # Get the product
     response = client.get(f"/products/{product_id}")
-    
+
+
     assert response.status_code == 200
     data = response.json()
     assert data["id"] == product_id
@@ -90,9 +93,11 @@ def test_update_product_route(client):
             "min_stock": 4
         }
     )
-    
+
+
     product_id = create_response.json()["id"]
-    
+
+
     # Update the product
     response = client.put(
         f"/products/{product_id}",
@@ -102,6 +107,7 @@ def test_update_product_route(client):
             "min_stock": 8
         }
     )
+
     
     assert response.status_code == 200
     data = response.json()
@@ -123,14 +129,16 @@ def test_adjust_stock_route(client):
             "min_stock": 10
         }
     )
-    
+
+
     product_id = create_response.json()["id"]
-    
+
     # Adjust stock
     response = client.patch(
         f"/products/{product_id}/stock",
         json={"quantity": 200}
     )
+
     
     assert response.status_code == 200
     data = response.json()
@@ -143,6 +151,7 @@ def test_create_product_staff_fails(client, db):
     from app.db import get_db
     from app.main import create_app
     from fastapi.testclient import TestClient
+
     
     # Override the current user to be staff
     def get_staff_user():
@@ -151,19 +160,21 @@ def test_create_product_staff_fails(client, db):
             "role": "staff",
             "department_id": 1
         }
-    
+
+
     # Create a new client with staff user
     app = create_app()
     app.router.lifespan_context = None
-    
+
     def override_get_db():
         yield db
-    
+
     app.dependency_overrides[get_db] = override_get_db
     app.dependency_overrides[get_current_user] = get_staff_user
-    
+
     staff_client = TestClient(app)
-    
+
+
     response = staff_client.post(
         "/products",
         json={
@@ -174,7 +185,7 @@ def test_create_product_staff_fails(client, db):
             "min_stock": 1
         }
     )
-    
+
     # Should return 400 because user is not admin
     assert response.status_code == 400
     assert "Only admin" in response.json()["detail"]
@@ -183,14 +194,14 @@ def test_create_product_staff_fails(client, db):
 def test_get_nonexistent_product_returns_404(client):
     """Test getting a nonexistent product returns 404"""
     response = client.get("/products/00000000-0000-0000-0000-000000000000")
-    
+
     assert response.status_code == 404
 
 
 def test_health_check(client):
     """Test health check endpoint"""
     response = client.get("/")
-    
+
     assert response.status_code == 200
     assert response.json()["message"] == "Health check successful"
 
@@ -207,7 +218,7 @@ def test_duplicate_sku_returns_400(client):
             "min_stock": 1
         }
     )
-    
+
     response = client.post(
         "/products",
         json={
@@ -218,6 +229,8 @@ def test_duplicate_sku_returns_400(client):
             "min_stock": 2
         }
     )
-    
+
+
     assert response.status_code == 400
     assert "already exists" in response.json()["detail"]
+

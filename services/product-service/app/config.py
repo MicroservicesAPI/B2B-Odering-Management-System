@@ -21,3 +21,4 @@ class ProdRunConfig(Config):
 app_config = Config()
 local_run_config = LocalRunConfig()
 prod_run_config = ProdRunConfig()
+

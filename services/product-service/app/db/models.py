@@ -9,7 +9,7 @@ from app.db import Base
 
 class GUID(TypeDecorator):
     """Platform-independent GUID type.
-    
+
     Uses PostgreSQL's UUID type for PostgreSQL databases.
     For other databases (like SQLite), uses CHAR(32) to store UUIDs as 32-character hex strings (without hyphens).
     This ensures compatibility across different database backends for testing and production.
@@ -54,3 +54,4 @@ class Product(Base):
     stock_quantity = Column(Integer, nullable=False, default=0)
     min_stock = Column(Integer, nullable=False, default=0)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+

@@ -12,17 +12,19 @@ def test_create_and_get_product(db):
         stock_quantity=100,
         min_stock=10
     )
-    
+
     assert product is not None
     assert product.name == "Test Product A"
     assert product.sku == "TEST-SKU-001"
     assert product.description == "A test product"
     assert product.stock_quantity == 100
     assert product.min_stock == 10
-    
+
+
     # Fetch the created product by ID
     fetched = ProductRepository.get_by_id(db, product.id)
-    
+
+
     assert fetched is not None
     assert fetched.id == product.id
     assert fetched.name == "Test Product A"
@@ -38,9 +40,11 @@ def test_get_by_sku(db):
         stock_quantity=50,
         min_stock=5
     )
-    
+
+
     fetched = ProductRepository.get_by_sku(db, "TEST-SKU-002")
-    
+
+
     assert fetched is not None
     assert fetched.id == product.id
     assert fetched.sku == "TEST-SKU-002"
@@ -56,6 +60,7 @@ def test_duplicate_sku_raises_error(db):
         stock_quantity=20,
         min_stock=2
     )
+
     
     # Try to create another product with the same SKU
     try:
@@ -82,9 +87,11 @@ def test_list_all_products(db):
         stock_quantity=15,
         min_stock=1
     )
-    
+
+
     all_products = ProductRepository.list_all(db)
-    
+
+
     assert len(all_products) > 0
     assert any(product.sku == "TEST-SKU-005" for product in all_products)
 
@@ -99,6 +106,7 @@ def test_update_product(db):
         stock_quantity=25,
         min_stock=5
     )
+
     
     updated = ProductRepository.update_product(
         db=db,
@@ -107,6 +115,7 @@ def test_update_product(db):
         description="Updated description",
         min_stock=10
     )
+
     
     assert updated.name == "Updated Product F"
     assert updated.description == "Updated description"
@@ -124,12 +133,14 @@ def test_adjust_stock(db):
         stock_quantity=100,
         min_stock=10
     )
-    
+
+
     # Adjust stock to 150
     updated = ProductRepository.adjust_stock(db, product, 150)
-    
+
     assert updated.stock_quantity == 150
-    
+
+
     # Verify the update persisted
     fetched = ProductRepository.get_by_id(db, product.id)
     assert fetched.stock_quantity == 150
@@ -145,7 +156,7 @@ def test_adjust_stock_negative_raises_error(db):
         stock_quantity=50,
         min_stock=5
     )
-    
+
     try:
         ProductRepository.adjust_stock(db, product, -10)
         assert False, "Should have raised ValueError"
@@ -163,11 +174,12 @@ def test_delete_product(db):
         stock_quantity=10,
         min_stock=1
     )
-    
+
     product_id = product.id
-    
+
     ProductRepository.delete_product(db, product)
-    
+
     # Verify the product is deleted
     fetched = ProductRepository.get_by_id(db, product_id)
     assert fetched is None
+

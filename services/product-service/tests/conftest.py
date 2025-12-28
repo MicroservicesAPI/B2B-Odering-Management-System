@@ -52,4 +52,6 @@ def client(db):
         yield db
 
     app.dependency_overrides[get_db] = override_get_db
+    
     return TestClient(app)
+
