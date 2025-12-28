@@ -67,9 +67,7 @@ def update_product(
     try:
         return ProductService.update_product(db, product_id, request, user)
     except ValueError as e:
-        if "not found" in str(e).lower():
-            raise HTTPException(status_code=404, detail=str(e))
-        raise HTTPException(status_code=403, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @product_router.patch("/{product_id}/stock", response_model=ProductResponse)
@@ -83,6 +81,4 @@ def adjust_stock(
     try:
         return ProductService.adjust_stock(db, product_id, request, user)
     except ValueError as e:
-        if "not found" in str(e).lower():
-            raise HTTPException(status_code=404, detail=str(e))
-        raise HTTPException(status_code=403, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
