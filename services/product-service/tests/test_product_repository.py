@@ -20,8 +20,10 @@ def test_create_and_get_product(db):
     assert product.stock_quantity == 100
     assert product.min_stock == 10
 
+
     # Fetch the created product by ID
     fetched = ProductRepository.get_by_id(db, product.id)
+
 
     assert fetched is not None
     assert fetched.id == product.id
@@ -39,7 +41,9 @@ def test_get_by_sku(db):
         min_stock=5
     )
 
+
     fetched = ProductRepository.get_by_sku(db, "TEST-SKU-002")
+
 
     assert fetched is not None
     assert fetched.id == product.id
@@ -57,6 +61,7 @@ def test_duplicate_sku_raises_error(db):
         min_stock=2
     )
 
+    
     # Try to create another product with the same SKU
     try:
         ProductRepository.create_product(
@@ -83,7 +88,9 @@ def test_list_all_products(db):
         min_stock=1
     )
 
+
     all_products = ProductRepository.list_all(db)
+
 
     assert len(all_products) > 0
     assert any(product.sku == "TEST-SKU-005" for product in all_products)
@@ -100,6 +107,7 @@ def test_update_product(db):
         min_stock=5
     )
 
+    
     updated = ProductRepository.update_product(
         db=db,
         product=product,
@@ -108,6 +116,7 @@ def test_update_product(db):
         min_stock=10
     )
 
+    
     assert updated.name == "Updated Product F"
     assert updated.description == "Updated description"
     assert updated.min_stock == 10
@@ -125,10 +134,12 @@ def test_adjust_stock(db):
         min_stock=10
     )
 
+
     # Adjust stock to 150
     updated = ProductRepository.adjust_stock(db, product, 150)
 
     assert updated.stock_quantity == 150
+
 
     # Verify the update persisted
     fetched = ProductRepository.get_by_id(db, product.id)
@@ -171,3 +182,4 @@ def test_delete_product(db):
     # Verify the product is deleted
     fetched = ProductRepository.get_by_id(db, product_id)
     assert fetched is None
+

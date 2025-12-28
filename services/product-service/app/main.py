@@ -3,7 +3,9 @@ from contextlib import asynccontextmanager
 
 from app.config import app_config
 from app.db import engine, Base, SQLALCHEMY_DATABASE_URL
-from app.route import product_router
+
+from app.routes import product_router
+
 
 
 
@@ -30,4 +32,6 @@ def create_app():
     def health():
         return {"message": "Health check successful"}
 
+
     return product_app
+

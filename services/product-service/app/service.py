@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
-from app.schema import ProductCreate, ProductUpdate, StockAdjustment
 
 from app.product_repository import ProductRepository
+from app.schemas import ProductCreate, ProductUpdate, StockAdjustment
 
 
 class ProductService:
@@ -49,10 +49,11 @@ class ProductService:
         if user["role"] != "admin":
             raise ValueError("Only admin can update products")
 
+        
         product = ProductRepository.get_by_id(db, product_id)
         if not product:
             raise ValueError("Product not found")
-
+        
         return ProductRepository.update_product(
             db=db,
             product=product,
@@ -69,12 +70,15 @@ class ProductService:
         if user["role"] != "admin":
             raise ValueError("Only admin can adjust stock")
 
+
         product = ProductRepository.get_by_id(db, product_id)
         if not product:
             raise ValueError("Product not found")
+
 
         return ProductRepository.adjust_stock(
             db=db,
             product=product,
             new_quantity=request.quantity
         )
+

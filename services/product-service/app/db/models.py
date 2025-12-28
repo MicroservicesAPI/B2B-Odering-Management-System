@@ -54,3 +54,4 @@ class Product(Base):
     stock_quantity = Column(Integer, nullable=False, default=0)
     min_stock = Column(Integer, nullable=False, default=0)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+

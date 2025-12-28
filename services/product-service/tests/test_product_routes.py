@@ -43,8 +43,10 @@ def test_list_products_route(client):
         }
     )
 
+
     # List products
     response = client.get("/products")
+
 
     assert response.status_code == 200
     data = response.json()
@@ -71,6 +73,7 @@ def test_get_product_by_id_route(client):
     # Get the product
     response = client.get(f"/products/{product_id}")
 
+
     assert response.status_code == 200
     data = response.json()
     assert data["id"] == product_id
@@ -91,7 +94,9 @@ def test_update_product_route(client):
         }
     )
 
+
     product_id = create_response.json()["id"]
+
 
     # Update the product
     response = client.put(
@@ -103,6 +108,7 @@ def test_update_product_route(client):
         }
     )
 
+    
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Updated Product Name"
@@ -124,6 +130,7 @@ def test_adjust_stock_route(client):
         }
     )
 
+
     product_id = create_response.json()["id"]
 
     # Adjust stock
@@ -132,6 +139,7 @@ def test_adjust_stock_route(client):
         json={"quantity": 200}
     )
 
+    
     assert response.status_code == 200
     data = response.json()
     assert data["stock_quantity"] == 200
@@ -144,6 +152,7 @@ def test_create_product_staff_fails(client, db):
     from app.main import create_app
     from fastapi.testclient import TestClient
 
+    
     # Override the current user to be staff
     def get_staff_user():
         return {
@@ -151,6 +160,7 @@ def test_create_product_staff_fails(client, db):
             "role": "staff",
             "department_id": 1
         }
+
 
     # Create a new client with staff user
     app = create_app()
@@ -163,6 +173,7 @@ def test_create_product_staff_fails(client, db):
     app.dependency_overrides[get_current_user] = get_staff_user
 
     staff_client = TestClient(app)
+
 
     response = staff_client.post(
         "/products",
@@ -219,5 +230,7 @@ def test_duplicate_sku_returns_400(client):
         }
     )
 
+
     assert response.status_code == 400
     assert "already exists" in response.json()["detail"]
+

@@ -8,12 +8,13 @@ class ProductRepository:
 
     @staticmethod
     def create_product(
-            db: Session,
-            name: str,
-            sku: str,
-            description: str | None,
-            stock_quantity: int,
-            min_stock: int
+
+        db: Session,
+        name: str,
+        sku: str,
+        description: str | None,
+        stock_quantity: int,
+        min_stock: int
     ) -> Product:
         """Create a new product"""
         product = Product(
@@ -23,7 +24,6 @@ class ProductRepository:
             stock_quantity=stock_quantity,
             min_stock=min_stock
         )
-
         try:
             db.add(product)
             db.commit()
@@ -50,11 +50,12 @@ class ProductRepository:
 
     @staticmethod
     def update_product(
-            db: Session,
-            product: Product,
-            name: str | None = None,
-            description: str | None = None,
-            min_stock: int | None = None
+
+        db: Session,
+        product: Product,
+        name: str | None = None,
+        description: str | None = None,
+        min_stock: int | None = None
     ) -> Product:
         """Update product details"""
         if name is not None:
@@ -83,4 +84,5 @@ class ProductRepository:
     def delete_product(db: Session, product: Product):
         """Delete a product"""
         db.delete(product)
+
         db.commit()

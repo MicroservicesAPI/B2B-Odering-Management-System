@@ -20,7 +20,9 @@ def test_create_product_as_admin(db):
         min_stock=5
     )
 
+
     product = ProductService.create_product(db, request, admin_user)
+
 
     assert product is not None
     assert product.name == "Service Test Product"
@@ -107,6 +109,7 @@ def test_list_products_as_staff(db):
         min_stock=2
     )
 
+
     products = ProductService.list_products(db, staff_user)
 
     assert len(products) >= 2
@@ -137,9 +140,11 @@ def test_update_product_as_admin(db):
         min_stock=10
     )
 
+
     updated = ProductService.update_product(
         db, str(product.id), update_request, admin_user
     )
+
 
     assert updated.name == "Updated Name"
     assert updated.description == "Updated description"
@@ -164,7 +169,9 @@ def test_update_product_as_staff_fails(db):
         min_stock=5
     )
 
+
     update_request = ProductUpdate(name="Should Fail")
+
 
     try:
         ProductService.update_product(
@@ -221,7 +228,9 @@ def test_adjust_stock_as_staff_fails(db):
         min_stock=10
     )
 
+
     adjustment = StockAdjustment(quantity=50)
+
 
     try:
         ProductService.adjust_stock(
@@ -246,4 +255,6 @@ def test_get_nonexistent_product_fails(db):
         )
         assert False, "Should have raised ValueError"
     except ValueError as e:
+
         assert "not found" in str(e)
+
