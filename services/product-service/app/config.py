@@ -5,7 +5,7 @@ load_dotenv()
 
 
 class Config:
-    PROJECT_NAME = os.getenv("PROJECT_NAME", "Productservice of the B2B ordering system")
+    PROJECT_NAME = os.getenv("PROJECT_NAME", "Product service of the B2B ordering system")
     VERSION = os.getenv("VERSION", "0.1.0")
 
 
