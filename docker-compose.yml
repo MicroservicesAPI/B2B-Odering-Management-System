@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # API Gateway - Entry point for all client requests
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - PROJECT_NAME=API Gateway for B2B Ordering System
+      - VERSION=0.1.0
+      - AUTH_SERVICE_URL=http://auth-service:8001
+      - ORDER_SERVICE_URL=http://order-service:8002
+      - PRODUCT_SERVICE_URL=http://product-service:8003
+      - JWT_SECRET=Secret
+      - ALGORITHM=HS256
+      - ALLOWED_ORIGINS=*
+    depends_on:
+      - auth-service
+      - order-service
+      - product-service
+    networks:
+      - app-network
+
+  # Auth Service - Handles authentication and user management
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "8001:8001"
+    environment:
+      - PROJECT_NAME=Auth Service of the B2B ordering system
+      - VERSION=0.1.0
+      - LOCAL_RUN=1
+      - PROD_DATABASE_URL=postgresql+psycopg2://user:password@db:5432/authdb
+      - ACCESS_TOKEN_EXPIRE_MINUTES=15
+      - REFRESH_TOKEN_EXPIRE_DAYS=7
+      - ALGORITHM=HS256
+      - JWT_SECRET=Secret
+    networks:
+      - app-network
+
+  # Order Service - Manages orders
+  order-service:
+    build:
+      context: ./services/order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "8002:8002"
+    environment:
+      - PROJECT_NAME=Order Service of the B2B ordering system
+      - VERSION=0.1.0
+      - LOCAL_RUN=1
+      - PROD_DATABASE_URL=postgresql+psycopg2://user:password@db:5432/orderdb
+    networks:
+      - app-network
+
+  # Product Service - Manages products and inventory
+  product-service:
+    build:
+      context: ./services/product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "8003:8003"
+    environment:
+      - PROJECT_NAME=Product Service of the B2B ordering system
+      - VERSION=0.1.0
+      - LOCAL_RUN=1
+      - PROD_DATABASE_URL=postgresql+psycopg2://user:password@db:5432/productdb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

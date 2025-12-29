@@ -1,4 +1,19 @@
-FROM ubuntu:latest
-LABEL authors="kasca"
+FROM python:3.11-slim
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY app/ ./app/
+COPY run.py .
+COPY alembic.ini .
+COPY alembic/ ./alembic/
+
+# Expose port
+EXPOSE 8001
+
+# Run the application
+CMD ["python", "run.py"]

@@ -1,22 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 
+from app.auth import get_current_user
 from app.db import get_db
 from app.schemas import ProductResponse, ProductCreate, ProductUpdate, StockAdjustment
 from app.service import ProductService
 
 product_router = APIRouter(prefix="/products", tags=["products"])
-
-
-# This dependency normally comes from the API Gateway
-def get_current_user():
-    """
-    Example injected user from JWT
-    """
-    return {
-        "sub": "12345678-1234-5678-1234-567812345678",
-        "role": "admin",
-        "department_id": 1
-    }
 
 
 @product_router.post("", response_model=ProductResponse)
