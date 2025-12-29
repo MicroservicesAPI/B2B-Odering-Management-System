@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Security, status
+from fastapi import HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from typing import Dict, Optional
@@ -6,6 +6,7 @@ from typing import Dict, Optional
 from app.config import config
 
 security = HTTPBearer()
+optional_security = HTTPBearer(auto_error=False)
 
 
 def decode_token(token: str) -> Dict:
@@ -27,7 +28,7 @@ def decode_token(token: str) -> Dict:
         )
 
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security)) -> Dict:
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> Dict:
     """
     Extract and validate JWT token from Authorization header
     Returns the decoded user information
@@ -45,7 +46,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Security(securi
     return payload
 
 
-def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Security(security, auto_error=False)) -> Optional[Dict]:
+def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(optional_security)) -> Optional[Dict]:
     """
     Extract JWT token if present, but don't require it
     Used for endpoints that work with or without authentication
@@ -57,3 +58,4 @@ def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Secu
         return get_current_user(credentials)
     except HTTPException:
         return None
+
