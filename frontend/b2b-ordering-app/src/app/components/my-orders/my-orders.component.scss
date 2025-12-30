@@ -1,0 +1,161 @@
+.my-orders-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+  }
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  background: #34495e;
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .order-info {
+    h3 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.2rem;
+    }
+
+    .order-date {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+  }
+
+  .order-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.status-pending {
+      background: #f39c12;
+      color: white;
+    }
+
+    &.status-approved {
+      background: #27ae60;
+      color: white;
+    }
+
+    &.status-rejected {
+      background: #e74c3c;
+      color: white;
+    }
+
+    &.status-delivered {
+      background: #3498db;
+      color: white;
+    }
+  }
+}
+
+.order-body {
+  padding: 1.5rem;
+}
+
+.order-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .detail-item {
+    .label {
+      display: block;
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.25rem;
+    }
+
+    .value {
+      display: block;
+      font-size: 1rem;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+  }
+}
+
+.order-items {
+  h4 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+  }
+
+  .items-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      background: #f8f9fa;
+
+      th {
+        padding: 0.75rem;
+        text-align: left;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 2px solid #dee2e6;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #dee2e6;
+
+        &:hover {
+          background: #f8f9fa;
+        }
+
+        td {
+          padding: 0.75rem;
+          color: #495057;
+        }
+      }
+    }
+  }
+}
+
+.no-orders {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
