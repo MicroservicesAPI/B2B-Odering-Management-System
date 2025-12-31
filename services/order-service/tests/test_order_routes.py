@@ -102,7 +102,7 @@ def test_update_order_status_route_requires_admin(client, db):
         return {
             "sub": "12345678-1234-5678-1234-567812345678",
             "role": "staff",
-            "department_id": 1
+            "department_id": "00000000-0000-0000-0000-000000000001"
         }
     
     # Create a new client with staff user

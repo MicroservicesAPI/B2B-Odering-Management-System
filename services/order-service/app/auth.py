@@ -7,7 +7,7 @@ from typing import Optional
 
 # Default values for development/testing
 DEFAULT_USER_ID = "12345678-1234-5678-1234-567812345678"
-DEFAULT_DEPARTMENT_ID = "1"
+DEFAULT_DEPARTMENT_ID = "00000000-0000-0000-0000-000000000001"
 
 
 def get_current_user(
