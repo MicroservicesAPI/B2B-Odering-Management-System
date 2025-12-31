@@ -25,7 +25,7 @@ class OrderItemResponse(BaseModel):
 class OrderResponse(BaseModel):
     id: UUID
     user_id: UUID
-    department_id: int
+    department_id: UUID
     status: str
     description: str | None
     created_at: datetime

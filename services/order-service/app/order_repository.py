@@ -41,7 +41,7 @@ class OrderRepository:
         return db.query(Order).filter(Order.id == order_id).first()
 
     @staticmethod
-    def list_by_department(db: Session, department_id: int):
+    def list_by_department(db: Session, department_id):
         return (
             db.query(Order)
             .filter(Order.department_id == department_id)
