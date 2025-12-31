@@ -50,6 +50,15 @@ class OrderRepository:
         )
 
     @staticmethod
+    def list_by_user(db: Session, user_id):
+        return (
+            db.query(Order)
+            .filter(Order.user_id == user_id)
+            .order_by(Order.created_at.desc())
+            .all()
+        )
+
+    @staticmethod
     def list_all(db: Session):
         return db.query(Order).order_by(Order.created_at.desc()).all()
 

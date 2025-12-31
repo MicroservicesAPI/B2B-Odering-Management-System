@@ -30,6 +30,16 @@ class OrderService:
         )
 
     @staticmethod
+    def get_my_orders(db: Session, user):
+        """
+        Get orders for the current user
+        """
+        return OrderRepository.list_by_user(
+            db=db,
+            user_id=user["sub"]
+        )
+
+    @staticmethod
     def update_order_status(db: Session, order_id, status: OrderStatus, user):
         if user["role"] != "admin":
             raise ValueError("Only admin can update order status")

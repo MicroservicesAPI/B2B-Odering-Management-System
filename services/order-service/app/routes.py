@@ -29,6 +29,15 @@ def list_orders(
     return OrderService.list_orders(db, user)
 
 
+@order_router.get("/me", response_model=list[OrderResponse])
+def get_my_orders(
+    db=Depends(get_db),
+    user=Depends(get_current_user)
+):
+    """Get orders for the current user"""
+    return OrderService.get_my_orders(db, user)
+
+
 @order_router.put("/{order_id}/status")
 def update_order_status(
     order_id: str,
