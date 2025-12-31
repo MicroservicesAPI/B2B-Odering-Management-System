@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  # Frontend - Angular application
+  frontend:
+    build:
+      context: ./frontend/b2b-ordering-app
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - app-network
+
   # API Gateway - Entry point for all client requests
   api-gateway:
     build:

@@ -14,9 +14,18 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {
     const storedUser = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<User | null>(
-      storedUser ? JSON.parse(storedUser) : null
-    );
+    let user: User | null = null;
+
+    if (storedUser) {
+      try {
+        user = JSON.parse(storedUser);
+      } catch (e) {
+        console.warn('Invalid currentUser in localStorage, clearing it', e);
+        localStorage.removeItem('currentUser');
+      }
+    }
+
+    this.currentUserSubject = new BehaviorSubject<User | null>(user);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -38,7 +47,13 @@ export class AuthService {
         tap(response => {
           localStorage.setItem('access_token', response.access_token);
           localStorage.setItem('refresh_token', response.refresh_token);
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
+
+          if (response.user) {
+            localStorage.setItem('currentUser', JSON.stringify(response.user));
+          } else {
+            localStorage.removeItem('currentUser');
+          }
+
           this.currentUserSubject.next(response.user);
         })
       );
