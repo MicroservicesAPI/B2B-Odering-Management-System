@@ -1,0 +1,68 @@
+<div class="my-orders-container">
+  <h1>My Orders</h1>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Loading orders...</p>
+  </div>
+
+  <div class="orders-list" *ngIf="!loading && orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <div class="order-info">
+          <h3>Order #{{ order.id.substring(0, 8) }}</h3>
+          <span class="order-date">{{ order.created_at | date:'medium' }}</span>
+        </div>
+        <span class="order-status" [ngClass]="getStatusClass(order.status)">
+          {{ order.status }}
+        </span>
+      </div>
+
+      <div class="order-body">
+        <div class="order-details">
+          <div class="detail-item">
+            <span class="label">Department ID:</span>
+            <span class="value">{{ order.department_id.substring(0, 8) }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Total Amount:</span>
+            <span class="value">${{ order.total_amount.toFixed(2) }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Last Updated:</span>
+            <span class="value">{{ order.updated_at | date:'short' }}</span>
+          </div>
+        </div>
+
+        <div class="order-items" *ngIf="order.items && order.items.length > 0">
+          <h4>Order Items</h4>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of order.items">
+                <td>{{ item.product_id.substring(0, 8) }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.unit_price.toFixed(2) }}</td>
+                <td>${{ item.total_price.toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-orders" *ngIf="!loading && orders.length === 0">
+    <p>You don't have any orders yet.</p>
+  </div>
+</div>

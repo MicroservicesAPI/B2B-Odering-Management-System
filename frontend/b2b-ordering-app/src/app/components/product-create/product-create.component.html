@@ -1,0 +1,105 @@
+<div class="product-create-container">
+  <div class="product-create-card">
+    <h1>Create New Product</h1>
+    <p class="subtitle">Add a new product to the warehouse inventory</p>
+
+    <div class="success-message" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Product Name *</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name"
+            [(ngModel)]="product.name" 
+            required
+            class="form-control"
+            placeholder="Enter product name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="sku">SKU *</label>
+          <input 
+            type="text" 
+            id="sku" 
+            name="sku"
+            [(ngModel)]="product.sku" 
+            required
+            class="form-control"
+            placeholder="Enter SKU"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea 
+          id="description" 
+          name="description"
+          [(ngModel)]="product.description" 
+          required
+          class="form-control"
+          rows="4"
+          placeholder="Enter product description"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="stock_quantity">Stock Quantity *</label>
+          <input 
+            type="number" 
+            id="stock_quantity" 
+            name="stock_quantity"
+            [(ngModel)]="product.stock_quantity" 
+            required
+            min="0"
+            class="form-control"
+            placeholder="0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="min_stock">Minimum Stock Level *</label>
+          <input 
+            type="number" 
+            id="min_stock" 
+            name="min_stock"
+            [(ngModel)]="product.min_stock" 
+            required
+            min="0"
+            class="form-control"
+            placeholder="0"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="resetForm()"
+          [disabled]="loading"
+        >
+          Reset
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="loading || productForm.invalid"
+        >
+          {{ loading ? 'Creating...' : 'Create Product' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -70,3 +70,24 @@ Thumbs.db
 # --- Static / Media (if generated) ---
 staticfiles/
 media/
+
+# --- Angular / Node.js ---
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build outputs
+frontend/**/dist/
+frontend/**/.angular/
+frontend/**/out-tsc/
+
+# IDEs
+frontend/**/.vscode/
+frontend/**/.idea/
+
+# Misc
+frontend/**/.DS_Store
+

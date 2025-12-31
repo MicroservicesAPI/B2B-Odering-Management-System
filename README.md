@@ -164,5 +164,60 @@ Once the services are running, access the interactive API documentation:
 - **HTTP Client**: httpx (for service-to-service communication)
 - **Testing**: pytest
 - **Containerization**: Docker
+- **Frontend**: Angular 19.2.5 with TypeScript and SCSS
+
+---
+
+## 🎨 Frontend Application
+
+The system includes a modern Angular frontend located in the `frontend/b2b-ordering-app` directory.
+
+### Features
+
+- **Authentication**: Login/Logout with JWT tokens
+- **Product Catalog**: Browse available products with stock levels
+- **Product Management**: Create new products (Admin only)
+- **Order Tracking**: View and track personal orders
+- **Role-Based Access**: Different views for Admin and Staff users
+
+### Quick Start
+
+```bash
+# Navigate to frontend directory
+cd frontend/b2b-ordering-app
+
+# Install dependencies
+npm install
+
+# Start development server (with proxy to backend)
+npm start
+
+# Application will be available at http://localhost:4200
+```
+
+For detailed frontend documentation, see [Frontend README](frontend/b2b-ordering-app/FRONTEND_README.md).
+
+### Running Full Stack
+
+To run both backend and frontend together:
+
+**Terminal 1 - Backend Services:**
+```bash
+# Start all backend services with Docker
+docker-compose up --build
+```
+
+**Terminal 2 - Frontend:**
+```bash
+# Start Angular development server
+cd frontend/b2b-ordering-app
+npm install
+npm start
+```
+
+Then access:
+- Frontend: http://localhost:4200
+- API Gateway: http://localhost:8000
+- API Docs: http://localhost:8000/docs
 
 ---

@@ -1,0 +1,21 @@
+<nav class="navbar" *ngIf="authService.isAuthenticated">
+  <div class="navbar-brand">
+    <a routerLink="/home">B2B Ordering System</a>
+  </div>
+  
+  <ul class="navbar-menu">
+    <li><a routerLink="/home" routerLinkActive="active">Products</a></li>
+    <li><a routerLink="/my-orders" routerLinkActive="active">My Orders</a></li>
+    <li *ngIf="authService.isAdmin">
+      <a routerLink="/product-create" routerLinkActive="active">Create Product</a>
+    </li>
+  </ul>
+  
+  <div class="navbar-user">
+    <span class="user-email">{{ authService.currentUserValue?.email }}</span>
+    <span class="user-role badge" [class.badge-admin]="authService.isAdmin">
+      {{ authService.currentUserValue?.role }}
+    </span>
+    <button class="btn-logout" (click)="logout()">Logout</button>
+  </div>
+</nav>
