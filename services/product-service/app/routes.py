@@ -21,7 +21,7 @@ def create_product(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@product_router.get("", response_model=list[ProductResponse])
+@product_router.get("/list", response_model=list[ProductResponse])
 def list_products(
     skip: int = 0,
     limit: int = 100,
