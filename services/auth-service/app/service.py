@@ -45,5 +45,11 @@ class AuthService:
         return {
             "access_token": access_token,
             "refresh_token": refresh_token,
-            "token_type": "bearer"
+            "token_type": "bearer",
+            "user": {
+                "id": str(user.id),
+                "email": user.email,
+                "role": user.role.value,
+                "department_id": str(user.department_id)
+            }
         }
