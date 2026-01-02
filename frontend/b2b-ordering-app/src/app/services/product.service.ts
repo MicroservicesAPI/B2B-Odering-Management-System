@@ -21,7 +21,7 @@ export class ProductService {
   }
 
   createProduct(product: ProductCreateRequest): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+    return this.http.post<Product>(`${this.apiUrl}/create`, product);
   }
 
   updateProduct(id: string, product: Partial<Product>): Observable<Product> {

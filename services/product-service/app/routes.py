@@ -8,7 +8,7 @@ from app.service import ProductService
 product_router = APIRouter(prefix="/products", tags=["products"])
 
 
-@product_router.post("", response_model=ProductResponse)
+@product_router.post("/create", response_model=ProductResponse)
 def create_product(
     request: ProductCreate,
     db=Depends(get_db),
