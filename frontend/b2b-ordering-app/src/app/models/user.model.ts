@@ -1,7 +1,7 @@
 export interface User {
   id: string;
   email: string;
-  role: 'ADMIN' | 'STAFF';
+  role: 'admin' | 'staff';
   department_id?: string;
   is_active: boolean;
   created_at: string;

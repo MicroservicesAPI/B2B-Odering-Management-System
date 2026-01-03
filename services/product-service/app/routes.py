@@ -8,7 +8,7 @@ from app.service import ProductService
 product_router = APIRouter(prefix="/products", tags=["products"])
 
 
-@product_router.post("", response_model=ProductResponse)
+@product_router.post("/create", response_model=ProductResponse)
 def create_product(
     request: ProductCreate,
     db=Depends(get_db),
@@ -21,7 +21,7 @@ def create_product(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@product_router.get("", response_model=list[ProductResponse])
+@product_router.get("/list", response_model=list[ProductResponse])
 def list_products(
     skip: int = 0,
     limit: int = 100,

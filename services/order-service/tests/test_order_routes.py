@@ -49,6 +49,37 @@ def test_list_orders_route(client):
     assert len(data) >= 2
 
 
+def test_get_my_orders_route(client):
+    """Test getting current user's orders via /orders/me endpoint"""
+    # Create some orders first
+    client.post(
+        "/orders",
+        json={
+            "description": "My test order 1",
+            "items": [{"product_name": "Product A", "quantity": 1}]
+        }
+    )
+    
+    client.post(
+        "/orders",
+        json={
+            "description": "My test order 2",
+            "items": [{"product_name": "Product B", "quantity": 2}]
+        }
+    )
+    
+    # Get my orders
+    response = client.get("/orders/me")
+    
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) >= 2
+    # All orders should belong to the same user
+    user_ids = [order["user_id"] for order in data]
+    assert len(set(user_ids)) == 1
+
+
 def test_update_order_status_route_requires_admin(client, db):
     """Test that updating order status requires admin role"""
     # Create an order first
@@ -71,7 +102,7 @@ def test_update_order_status_route_requires_admin(client, db):
         return {
             "sub": "12345678-1234-5678-1234-567812345678",
             "role": "staff",
-            "department_id": 1
+            "department_id": "00000000-0000-0000-0000-000000000001"
         }
     
     # Create a new client with staff user

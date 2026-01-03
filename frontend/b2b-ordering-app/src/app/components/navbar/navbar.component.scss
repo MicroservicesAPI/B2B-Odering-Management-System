@@ -1,88 +1,75 @@
 .navbar {
   background: #2c3e50;
   padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.navbar-brand {
-  a {
+  .navbar-brand a {
     color: white;
-    font-size: 1.5rem;
+    font-size: 2rem;      // plus grand titre
     font-weight: bold;
     text-decoration: none;
-    
-    &:hover {
-      color: #3498db;
-    }
+    &:hover { color: #3498db; }
   }
-}
 
-.navbar-menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 1.5rem;
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+    .navbar-toggler-icon { filter: invert(1); }
+  }
 
-  li a {
-    color: white;
-    text-decoration: none;
+  .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    transition: background 0.3s;
+    transition: all 0.3s;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.1);
+      text-decoration: none;
     }
 
     &.active {
-      background: #3498db;
+      border-bottom: 2px solid #3498db; // souligné pour le lien actif
     }
   }
-}
 
-.navbar-user {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  .d-flex.align-items-center {
+    gap: 1rem;
 
-  .user-email {
-    color: white;
-    font-size: 0.9rem;
-  }
+    .user-email { color: white; font-size: 0.9rem; }
 
-  .user-role {
-    &.badge {
+    .badge {
       padding: 0.25rem 0.75rem;
       border-radius: 12px;
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      background: #27ae60;
       color: white;
+      &.bg-primary { background: #27ae60; }
+      &.bg-danger { background: #e74c3c; }
     }
 
-    &.badge-admin {
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
       background: #e74c3c;
-    }
-  }
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.3s;
 
-  .btn-logout {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: background 0.3s;
+      i {
+        font-size: 1rem;
+      }
 
-    &:hover {
-      background: #c0392b;
+      &:hover {
+        background: #c0392b;
+        color: white;
+      }
     }
   }
 }

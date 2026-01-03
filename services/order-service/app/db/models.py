@@ -58,7 +58,7 @@ class Order(Base):
 
     id = Column(GUID(), primary_key=True, default=uuid.uuid4)
     user_id = Column(GUID(), nullable=False)
-    department_id = Column(Integer, nullable=False)
+    department_id = Column(GUID(), nullable=False)
 
     status = Column(Enum(OrderStatus), default=OrderStatus.PENDING, nullable=False)
     description = Column(String, nullable=True)
