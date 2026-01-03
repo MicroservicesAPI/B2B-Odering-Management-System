@@ -1,5 +1,3 @@
-// src/app/pages/make-order/make-order.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,8 +15,14 @@ import { OrderCreateRequest, OrderItemCreate } from '../../models/order.model';
 })
 export class MakeOrderComponent implements OnInit {
   products: Product[] = [];
-  quantities: Record<string, number> = {};
+  sortedProducts: Product[] = [];
+  sortKey: 'name' | 'sku' = 'name';
+  sortAsc = true;
+
+  selectedProduct?: Product;
+  quantity = 1;
   description = '';
+  showModal = false;
   loading = false;
   errorMessage = '';
 
@@ -33,43 +37,67 @@ export class MakeOrderComponent implements OnInit {
 
   loadProducts(): void {
     this.productService.getProducts().subscribe({
-      next: products => this.products = products,
+      next: products => {
+        this.products = products;
+        this.sortProducts();
+      },
       error: () => this.errorMessage = 'Failed to load products'
     });
   }
 
-  placeOrder(): void {
-    const items: OrderItemCreate[] = this.products
-      .filter(p => this.quantities[p.name] && this.quantities[p.name] > 0)
-      .map(p => ({
-        product_name: p.name,
-        quantity: this.quantities[p.name]
-      }));
+  sortProducts(): void {
+    this.sortedProducts = [...this.products].sort((a, b) => {
+      const valA = a[this.sortKey].toLowerCase();
+      const valB = b[this.sortKey].toLowerCase();
+      if (valA < valB) return this.sortAsc ? -1 : 1;
+      if (valA > valB) return this.sortAsc ? 1 : -1;
+      return 0;
+    });
+  }
 
-    if (items.length === 0) {
-      this.errorMessage = 'Please select at least one product';
+  toggleSort(key: 'name' | 'sku'): void {
+    if (this.sortKey === key) this.sortAsc = !this.sortAsc;
+    else {
+      this.sortKey = key;
+      this.sortAsc = true;
+    }
+    this.sortProducts();
+  }
+
+  openModal(product: Product): void {
+    this.selectedProduct = product;
+    this.quantity = 1;
+    this.description = '';
+    this.showModal = true;
+    this.errorMessage = '';
+  }
+
+  placeOrder(): void {
+    if (!this.selectedProduct || this.quantity <= 0) {
+      this.errorMessage = 'Please enter a valid quantity';
       return;
     }
 
     const order: OrderCreateRequest = {
       description: this.description,
-      items
+      items: [{ product_name: this.selectedProduct.name, quantity: this.quantity }]
     };
 
     this.loading = true;
-    this.errorMessage = '';
-
     this.orderService.createOrder(order).subscribe({
       next: () => {
         this.loading = false;
-        alert('Order placed successfully');
-        this.quantities = {};
-        this.description = '';
+        alert(`Order placed for ${this.selectedProduct!.name}`);
+        this.showModal = false;
       },
       error: err => {
         this.loading = false;
         this.errorMessage = err.error?.detail || 'Order failed';
       }
     });
+  }
+
+  closeModal(): void {
+    this.showModal = false;
   }
 }
