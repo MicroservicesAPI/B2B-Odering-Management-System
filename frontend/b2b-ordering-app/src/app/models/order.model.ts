@@ -1,27 +1,26 @@
-export interface Order {
-  id: string;
-  department_id: string;
-  user_id: string;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'DELIVERED';
-  total_amount: number;
-  created_at: string;
-  updated_at: string;
-  items?: OrderItem[];
-}
+// src/app/models/order.model.ts
 
-export interface OrderItem {
-  id: string;
-  order_id: string;
-  product_id: string;
+export interface OrderItemCreate {
+  product_name: string;
   quantity: number;
-  unit_price: number;
-  total_price: number;
 }
 
 export interface OrderCreateRequest {
+  description?: string;
+  items: OrderItemCreate[];
+}
+
+export interface OrderItem {
+  product_name: string;
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  user_id: string;
   department_id: string;
-  items: {
-    product_id: string;
-    quantity: number;
-  }[];
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'DELIVERED';
+  description?: string;
+  created_at: string;
+  items: OrderItem[];
 }

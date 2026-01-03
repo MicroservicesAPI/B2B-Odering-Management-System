@@ -1,0 +1,76 @@
+<div class="container mt-4">
+  <h2>Available Products</h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <table class="table table-hover mt-3">
+    <thead>
+      <tr>
+        <th (click)="toggleSort('name')" style="cursor:pointer">
+          Name
+          <i [class]="sortKey === 'name' ? (sortAsc ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill') : ''"></i>
+        </th>
+        <th (click)="toggleSort('sku')" style="cursor:pointer">
+          SKU
+          <i [class]="sortKey === 'sku' ? (sortAsc ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill') : ''"></i>
+        </th>
+        <th>Stock</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of sortedProducts">
+        <td>{{ product.name }}</td>
+        <td>{{ product.sku }}</td>
+        <td>{{ product.stock_quantity }}</td>
+        <td>
+          <input type="number"
+                 class="form-control form-control-sm"
+                 [(ngModel)]="productQuantities[product.id]"
+                 min="1"
+                 [max]="product.stock_quantity">
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="openModal(product)">
+            <i class="bi bi-cart-plus me-1"></i> Order
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal -->
+  <div class="modal" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Order {{ selectedProduct?.name }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+          <div class="mb-3">
+            <label class="form-label">Description (optional)</label>
+            <textarea class="form-control" [(ngModel)]="description"
+                      placeholder="Warum benötigen Sie das Produkt?"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" class="form-control"
+                   [(ngModel)]="modalQuantity"
+                   min="1"
+                   [max]="selectedProduct?.stock_quantity ?? 1000">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-primary" [disabled]="loading" (click)="placeOrder()">
+            {{ loading ? 'Placing...' : 'Place Order' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showModal" class="modal-backdrop fade show"></div>
+</div>

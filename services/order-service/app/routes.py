@@ -9,7 +9,7 @@ from app.services import OrderService
 order_router = APIRouter(prefix="/orders", tags=["orders"])
 
 
-@order_router.post("", response_model=OrderResponse)
+@order_router.post("/create", response_model=OrderResponse)
 def create_order(
     request: OrderCreateRequest,
     db=Depends(get_db),

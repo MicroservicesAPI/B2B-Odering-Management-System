@@ -1,15 +1,20 @@
 <div class="home-container">
   <div class="d-flex justify-content-between align-items-center">
-    <div>
+    <div class="mb-3">
       <h1 class="mb-0">Available Products</h1>
+      <small class="text-muted">Last recent products</small>
     </div>
 
     <div>
       <!-- here an order button -->
-      <button class="btn btn-primary rounded-pill px-4">
+      <button
+        class="mb-3 btn btn-primary rounded-pill px-4"
+        routerLink="/make-order"
+      >
         <i class="bi bi-cart-plus me-1"></i>
         Order
       </button>
+
 
     </div>
   </div>
@@ -23,8 +28,8 @@
     <p>Loading products...</p>
   </div>
 
-  <div class="products-grid" *ngIf="!loading && products.length > 0">
-    <div class="product-card" *ngFor="let product of products">
+  <div class="products-grid" *ngIf="!loading && LastProducts.length > 0">
+    <div class="product-card" *ngFor="let product of LastProducts">
       <div class="product-header">
         <h3>{{ product.name }}</h3>
         <span class="product-sku">SKU: {{ product.sku }}</span>
@@ -54,7 +59,7 @@
     </div>
   </div>
 
-  <div class="no-products" *ngIf="!loading && products.length === 0">
+  <div class="no-products" *ngIf="!loading && LastProducts.length === 0">
     <p>No products available at the moment.</p>
   </div>
 </div>
