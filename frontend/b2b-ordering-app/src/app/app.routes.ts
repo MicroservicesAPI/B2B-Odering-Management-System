@@ -7,10 +7,33 @@ import { authGuard, adminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+
   { path: 'my-orders', component: MyOrdersComponent, canActivate: [authGuard] },
-  { path: 'product-create', component: ProductCreateComponent, canActivate: [authGuard, adminGuard] },
+
+      // -----------------------------------------------------
+  // Moderne Variante: Lazy Load einer Standalone-Komponente
+
+  {
+    path: 'make-order',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./components/make-order/make-order.component')
+        .then(m => m.MakeOrderComponent)
+  },
+          // -----------------------------------------------------
+    //  Klassische Variante: Component direkt referenzieren
+
+  {
+    path: 'product-create',
+    component: ProductCreateComponent,
+    canActivate: [authGuard, adminGuard]
+  },
+
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+
   { path: '**', redirectTo: '/home' }
 ];
+
 
