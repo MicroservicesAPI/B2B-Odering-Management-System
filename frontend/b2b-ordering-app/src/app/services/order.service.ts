@@ -27,7 +27,7 @@ export class OrderService {
   }
 
   createOrder(order: OrderCreateRequest): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl, order).pipe(
+    return this.http.post<Order>(`${this.apiUrl}/create`, order).pipe(
       catchError(err => {
         console.error('Order creation failed', err);
         return throwError(() => err);
