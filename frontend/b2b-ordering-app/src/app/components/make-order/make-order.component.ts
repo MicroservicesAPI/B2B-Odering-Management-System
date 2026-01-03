@@ -1,28 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { OrderService } from '../../services/order.service';
 import { Product } from '../../models/product.model';
-import { OrderCreateRequest, OrderItemCreate } from '../../models/order.model';
+import { OrderCreateRequest } from '../../models/order.model';
+import { FormsModule } from '@angular/forms';
+import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-make-order',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './make-order.component.html',
-  styleUrls: ['./make-order.component.scss']
+  styleUrls: ['./make-order.component.scss'],
+  imports: [FormsModule, NgIf, NgForOf]
 })
 export class MakeOrderComponent implements OnInit {
+
   products: Product[] = [];
   sortedProducts: Product[] = [];
+  productQuantities: Record<string, number> = {};
+
   sortKey: 'name' | 'sku' = 'name';
   sortAsc = true;
 
-  selectedProduct?: Product;
-  quantity = 1;
-  description = '';
+  // Modal
   showModal = false;
+  selectedProduct?: Product;
+  modalQuantity = 1;
+  description = '';
   loading = false;
   errorMessage = '';
 
@@ -37,67 +40,71 @@ export class MakeOrderComponent implements OnInit {
 
   loadProducts(): void {
     this.productService.getProducts().subscribe({
-      next: products => {
+      next: (products) => {
         this.products = products;
+        this.products.forEach(p => this.productQuantities[p.id] = 1);
         this.sortProducts();
       },
       error: () => this.errorMessage = 'Failed to load products'
     });
   }
 
-  sortProducts(): void {
-    this.sortedProducts = [...this.products].sort((a, b) => {
-      const valA = a[this.sortKey].toLowerCase();
-      const valB = b[this.sortKey].toLowerCase();
-      if (valA < valB) return this.sortAsc ? -1 : 1;
-      if (valA > valB) return this.sortAsc ? 1 : -1;
-      return 0;
-    });
-  }
-
   toggleSort(key: 'name' | 'sku'): void {
-    if (this.sortKey === key) this.sortAsc = !this.sortAsc;
-    else {
+    if (this.sortKey === key) {
+      this.sortAsc = !this.sortAsc;
+    } else {
       this.sortKey = key;
       this.sortAsc = true;
     }
     this.sortProducts();
   }
 
+  sortProducts(): void {
+    this.sortedProducts = [...this.products].sort((a, b) => {
+      const valA = (a[this.sortKey] ?? '').toString().trim().toLowerCase();
+      const valB = (b[this.sortKey] ?? '').toString().trim().toLowerCase();
+      return this.sortAsc ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+    });
+  }
+
   openModal(product: Product): void {
     this.selectedProduct = product;
-    this.quantity = 1;
+    this.modalQuantity = this.productQuantities[product.id] || 1;
     this.description = '';
+    this.errorMessage = '';
     this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.selectedProduct = undefined;
+    this.modalQuantity = 1;
+    this.description = '';
     this.errorMessage = '';
   }
 
   placeOrder(): void {
-    if (!this.selectedProduct || this.quantity <= 0) {
-      this.errorMessage = 'Please enter a valid quantity';
-      return;
-    }
+    if (!this.selectedProduct) return;
 
     const order: OrderCreateRequest = {
-      description: this.description,
-      items: [{ product_name: this.selectedProduct.name, quantity: this.quantity }]
+      description: this.description || undefined,
+      items: [
+        { product_name: this.selectedProduct.name, quantity: this.modalQuantity }
+      ]
     };
 
     this.loading = true;
     this.orderService.createOrder(order).subscribe({
       next: () => {
         this.loading = false;
-        alert(`Order placed for ${this.selectedProduct!.name}`);
-        this.showModal = false;
+        this.productQuantities[this.selectedProduct!.id] = this.modalQuantity;
+        this.closeModal();
+        alert('Order placed successfully!');
       },
-      error: err => {
+      error: (err) => {
         this.loading = false;
-        this.errorMessage = err.error?.detail || 'Order failed';
+        this.errorMessage = err?.message || 'Failed to place order';
       }
     });
-  }
-
-  closeModal(): void {
-    this.showModal = false;
   }
 }
