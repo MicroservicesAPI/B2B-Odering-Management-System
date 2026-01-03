@@ -1,21 +1,39 @@
-<nav class="navbar" *ngIf="authService.isAuthenticated">
-  <div class="navbar-brand">
-    <a routerLink="/home">B2B Ordering System</a>
-  </div>
+<nav class="navbar navbar-expand-lg" *ngIf="authService.isAuthenticated">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand text-white" routerLink="/home"><h3>B2B Ordering System </h3></a>
 
-  <ul class="navbar-menu">
-    <li><a routerLink="/home" routerLinkActive="active">Products</a></li>
-    <li><a routerLink="/my-orders" routerLinkActive="active">My Orders</a></li>
-    <li *ngIf="authService.isAdmin">
-      <a routerLink="/product-create" routerLinkActive="active">Create Product</a>
-    </li>
-  </ul>
+    <!-- Hamburger toggle pour mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="navbar-user">
-    <span class="user-email">{{ authService.currentUserValue?.email }}</span>
-    <span class="user-role badge" [class.badge-admin]="authService.isAdmin">
-      {{ authService.currentUserValue?.role }}
-    </span>
-    <button class="btn-logout" (click)="logout()">Logout</button>
+    <!-- Menu items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/my-orders" routerLinkActive="active">My Orders</a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isAdmin">
+          <a class="nav-link" routerLink="/product-create" routerLinkActive="active">Create Product</a>
+        </li>
+      </ul>
+
+      <!-- User info et logout -->
+      <div class="d-flex align-items-center">
+        <span class="user-email">{{ authService.currentUserValue?.email }}</span>
+        <span class="badge"
+              [ngClass]="{'bg-danger': authService.isAdmin, 'bg-primary': !authService.isAdmin}">
+          {{ authService.currentUserValue?.role }}
+        </span>
+        <button class="btn btn-logout btn-sm ms-3" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </div>
+    </div>
   </div>
 </nav>
