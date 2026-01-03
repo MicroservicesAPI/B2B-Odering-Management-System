@@ -1,6 +1,9 @@
+// src/app/services/order.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Order, OrderCreateRequest } from '../models/order.model';
 
 @Injectable({
@@ -9,7 +12,7 @@ import { Order, OrderCreateRequest } from '../models/order.model';
 export class OrderService {
   private apiUrl = '/orders';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl);
@@ -24,7 +27,12 @@ export class OrderService {
   }
 
   createOrder(order: OrderCreateRequest): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl, order);
+    return this.http.post<Order>(this.apiUrl, order).pipe(
+      catchError(err => {
+        console.error('Order creation failed', err);
+        return throwError(() => err);
+      })
+    );
   }
 
   updateOrderStatus(id: string, status: string): Observable<Order> {
