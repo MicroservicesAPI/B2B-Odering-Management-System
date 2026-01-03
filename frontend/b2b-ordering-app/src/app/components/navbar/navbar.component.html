@@ -7,7 +7,7 @@
 
     <!-- Toggle mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -30,6 +30,14 @@
 
       <!-- Right side: role badge + user dropdown -->
       <div class="d-flex align-items-center">
+        <!-- Message Icon -->
+        <button class="btn btn-outline-light position-relative">
+          <i class="bi bi-envelope-fill"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+             0<!-- not red messages (placeholder)  -->
+      <span class="visually-hidden">unread messages</span>
+    </span>
+        </button>
         <!-- Role badge -->
         <span class="badge me-3"
               [ngClass]="{'bg-danger': authService.isAdmin, 'bg-primary': !authService.isAdmin}">
@@ -52,7 +60,9 @@
               {{ authService.currentUserValue?.email }}
             </li>
 
-            <li><hr class="dropdown-divider"></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
             <li>
               <button class="dropdown-item text-danger" (click)="logout()">

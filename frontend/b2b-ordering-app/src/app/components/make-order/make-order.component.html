@@ -29,7 +29,7 @@
                  class="form-control form-control-sm"
                  [(ngModel)]="productQuantities[product.id]"
                  min="1"
-                 [max]="product.stock_quantity ?? 1000">
+                 [max]="product.stock_quantity">
         </td>
         <td>
           <button class="btn btn-primary btn-sm" (click)="openModal(product)">
