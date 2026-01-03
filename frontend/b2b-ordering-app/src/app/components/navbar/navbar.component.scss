@@ -3,73 +3,83 @@
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  .navbar-brand a {
+  /* Brand */
+  .navbar-brand {
     color: white;
-    font-size: 2rem;      // plus grand titre
+    font-size: 2rem;
     font-weight: bold;
     text-decoration: none;
-    &:hover { color: #3498db; }
-  }
-
-  .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.3);
-    .navbar-toggler-icon { filter: invert(1); }
-  }
-
-  .navbar-nav .nav-link {
-    color: white !important;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: all 0.3s;
 
     &:hover {
-      background: rgba(255,255,255,0.1);
-      text-decoration: none;
-    }
-
-    &.active {
-      border-bottom: 2px solid #3498db; // souligné pour le lien actif
+      color: #3498db;
     }
   }
 
-  .d-flex.align-items-center {
-    gap: 1rem;
+  /* Mobile toggle */
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
 
-    .user-email { color: white; font-size: 0.9rem; }
-
-    .badge {
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: white;
-      &.bg-primary { background: #27ae60; }
-      &.bg-danger { background: #e74c3c; }
+    .navbar-toggler-icon {
+      filter: invert(1);
     }
+  }
 
-    .btn-logout {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
+  /* Menu links */
+  .navbar-nav {
+    .nav-link {
+      color: white !important;
       font-weight: 500;
-      transition: background 0.3s;
-
-      i {
-        font-size: 1rem;
-      }
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.3s;
 
       &:hover {
-        background: #c0392b;
-        color: white;
+        background: rgba(255, 255, 255, 0.1);
       }
+
+      &.active {
+        border-bottom: 2px solid #3498db;
+      }
+    }
+  }
+
+  /* Right side */
+  .d-flex.align-items-center {
+    gap: 1rem;
+  }
+
+  /* Role badge */
+  .badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* User icon button */
+  .btn-user {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.6rem;
+    padding: 0;
+
+    &:hover {
+      color: #3498db;
+    }
+  }
+
+  /* Dropdown */
+  .dropdown-menu {
+    min-width: 220px;
+
+    .user-email {
+      color: #2c3e50;
+      font-size: 0.85rem;
+      font-weight: 500;
+      word-break: break-all;
     }
   }
 }

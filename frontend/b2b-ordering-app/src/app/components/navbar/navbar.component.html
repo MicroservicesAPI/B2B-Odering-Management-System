@@ -1,16 +1,19 @@
 <nav class="navbar navbar-expand-lg" *ngIf="authService.isAuthenticated">
   <div class="container-fluid">
     <!-- Brand -->
-    <a class="navbar-brand text-white" routerLink="/home"><h3>B2B Ordering System </h3></a>
+    <a class="navbar-brand" routerLink="/home">
+      B2B Ordering System
+    </a>
 
-    <!-- Hamburger toggle pour mobile -->
+    <!-- Toggle mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Menu items -->
+    <!-- Content -->
     <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Menu -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active">Products</a>
@@ -19,20 +22,46 @@
           <a class="nav-link" routerLink="/my-orders" routerLinkActive="active">My Orders</a>
         </li>
         <li class="nav-item" *ngIf="authService.isAdmin">
-          <a class="nav-link" routerLink="/product-create" routerLinkActive="active">Create Product</a>
+          <a class="nav-link" routerLink="/product-create" routerLinkActive="active">
+            Create Product
+          </a>
         </li>
       </ul>
 
-      <!-- User info et logout -->
+      <!-- Right side: role badge + user dropdown -->
       <div class="d-flex align-items-center">
-        <span class="user-email">{{ authService.currentUserValue?.email }}</span>
-        <span class="badge"
+        <!-- Role badge -->
+        <span class="badge me-3"
               [ngClass]="{'bg-danger': authService.isAdmin, 'bg-primary': !authService.isAdmin}">
           {{ authService.currentUserValue?.role }}
         </span>
-        <button class="btn btn-logout btn-sm ms-3" (click)="logout()">
-          <i class="bi bi-box-arrow-right"></i> Logout
-        </button>
+
+        <!-- User dropdown -->
+        <div class="dropdown">
+          <button
+            class="btn btn-user dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-person-circle"></i>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li class="px-3 py-2 user-email">
+              {{ authService.currentUserValue?.email }}
+            </li>
+
+            <li><hr class="dropdown-divider"></li>
+
+            <li>
+              <button class="dropdown-item text-danger" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
