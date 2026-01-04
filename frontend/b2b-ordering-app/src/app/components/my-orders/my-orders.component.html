@@ -9,6 +9,7 @@
     <p>Loading orders...</p>
   </div>
 
+  <!-- List the orders-->
   <div class="orders-list" *ngIf="!loading && orders.length > 0">
     <div class="order-card" *ngFor="let order of orders">
       <div class="order-header">
@@ -27,34 +28,20 @@
             <span class="label">Department ID:</span>
             <span class="value">{{ order.department_id.substring(0, 8) }}</span>
           </div>
-          <!--
-          <div class="detail-item">
-            <span class="label">Total Amount:</span>
-            <span class="value">${{ order.total_amount.toFixed(2) }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Last Updated:</span>
-            <span class="value">{{ order.updated_at | date:'short' }}</span>
-          </div>
-        </div>
-        -->
 
           <div class="order-items" *ngIf="order.items && order.items.length > 0">
             <h4>Order Items</h4>
             <table class="items-table">
               <thead>
               <tr>
-                <th>Product ID</th>
+                <th>Product Name</th>
                 <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Total</th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let item of order.items">
                 <td>{{ item.product_name }}</td>
                 <td>{{ item.quantity }}</td>
-                <!-- <td>${{ item.total_price.toFixed(2) }}</td> -->
               </tr>
               </tbody>
             </table>
@@ -62,8 +49,10 @@
         </div>
       </div>
     </div>
-    <div class="no-orders" *ngIf="!loading && orders.length === 0">
-      <p>You don't have any orders yet.</p>
-    </div>
+  </div>
+
+  <!-- Message by no order -->
+  <div class="no-orders" *ngIf="!loading && orders.length === 0">
+    <p>You don't have any orders yet.</p>
   </div>
 </div>
