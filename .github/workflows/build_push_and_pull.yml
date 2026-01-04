@@ -1,0 +1,82 @@
+name: Deploy B2B Ordering System
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      # 1 Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2 Login to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3️ Build & push frontend
+      - name: Build & Push Frontend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend/b2b-ordering-app
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/b2b-frontend:latest
+
+      # 4️ Build & push API Gateway
+      - name: Build & Push API Gateway
+        uses: docker/build-push-action@v4
+        with:
+          context: ./services/api-gateway
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/b2b-api-gateway:latest
+
+      # 5 Build & push Auth Service
+      - name: Build & Push Auth Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./services/auth-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/b2b-auth-service:latest
+
+      # 6️ Build & push Order Service
+      - name: Build & Push Order Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./services/order-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/b2b-order-service:latest
+
+      # 7️ Build & push Product Service
+      - name: Build & Push Product Service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./services/product-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/b2b-product-service:latest
+
+      # 8️ Deploy to server via SSH + docker-compose
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd B2B_Ordering_system/
+            echo "Pulling latest images..."
+            docker-compose pull
+            echo "Stopping old containers..."
+            docker-compose down
+            echo "Starting containers..."
+            docker-compose up -d
+            echo "Cleanup unused images..."
+            docker image prune -f
