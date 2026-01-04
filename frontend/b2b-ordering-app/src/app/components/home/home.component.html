@@ -3,6 +3,11 @@
     <div class="mb-3">
       <h1 class="mb-0">Available Products</h1>
       <small class="text-muted">Last recent products</small>
+
+      <!-- Message demo mode -->
+      <div class="alert alert-warning mt-2 mb-0 py-1" role="alert">
+        As this is a demo mode, even as an admin you can only create and order products (restrictions apply).
+      </div>
     </div>
 
     <div>
@@ -14,11 +19,8 @@
         <i class="bi bi-cart-plus me-1"></i>
         Order
       </button>
-
-
     </div>
   </div>
-
 
   <div class="error-message" *ngIf="errorMessage">
     {{ errorMessage }}
