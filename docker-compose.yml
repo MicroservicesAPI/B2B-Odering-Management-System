@@ -12,7 +12,7 @@ services:
     depends_on:
       - api-gateway
     networks:
-      - app-network
+      - B2B-app-network
 
   # API Gateway - Entry point for all client requests
   api-gateway:
@@ -36,7 +36,7 @@ services:
       - order-service
       - product-service
     networks:
-      - app-network
+      - B2B-app-network
 
   # Auth Service - Handles authentication and user management
   auth-service:
@@ -56,7 +56,7 @@ services:
       - ALGORITHM=HS256
       - JWT_SECRET=Secret
     networks:
-      - app-network
+      - B2B-app-network
 
   # Order Service - Manages orders
   order-service:
