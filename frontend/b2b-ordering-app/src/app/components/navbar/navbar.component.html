@@ -35,7 +35,7 @@
           <i class="bi bi-envelope-fill"></i>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
              <!-- not red messages (placeholder)  -->
-      <!--<span class="visually-hidden">unread messages</span> -->
+            <!--<span class="visually-hidden">unread messages</span> -->
     </span>
         </button>
         <!-- Role badge -->
@@ -58,6 +58,17 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li class="px-3 py-2 user-email">
               {{ authService.currentUserValue?.email }}
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <!-- New: Documentation / Info button -->
+            <li>
+              <button class="dropdown-item" (click)="goToDocumentation()">
+                <i class="bi bi-info-circle me-2"></i>
+                Documentation
+              </button>
             </li>
 
             <li>
